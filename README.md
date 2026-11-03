@@ -1,5 +1,5 @@
 <div align="center">
-  <p><sub>LUiz Henrique Martins · DEVELOPER PORTFOLIO</sub></p>
+  <p><sub>Luiz Henrique Martins · DEVELOPER PORTFOLIO</sub></p>
   <h1>Luiz Henrique Martins</h1>
   <p>Selected projects, contribution activity, and ways to connect.</p>
 </div>
