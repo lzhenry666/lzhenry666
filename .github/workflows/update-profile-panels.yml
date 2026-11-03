@@ -1,0 +1,37 @@
+name: Update profile panels
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "README.md"
+      - ".github/workflows/update-profile-panels.yml"
+      - "scripts/update_profile_panels.py"
+  schedule:
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - uses: Platane/snk/svg-only@v3
+        with:
+          github_user_name: ${{ github.repository_owner }}
+          outputs: profile-assets/contribution-snake.svg
+      - run: python scripts/update_profile_panels.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add profile-assets/profile.svg profile-assets/stack.svg profile-assets/projects.svg profile-assets/contribution-snake.svg
+          git diff --cached --quiet || git commit -m "chore: refresh dynamic profile panels"
+          git push
